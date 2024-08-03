@@ -1,24 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.backends.django import reraise
-
-posts = [
-    {
-        'author': "Администратор",
-        'title': "Это первый пост",
-        'content': "Содержание первого поста.",
-        'date_posted': "12 мая, 2022",
-    },
-    {
-        'author': "Пользователь",
-        'title': "Это второй пост",
-        'content': "Подробное содержание второго поста.",
-        'date_posted': "13 мая, 2022",
-    }
-]
+from .models import Post
 
 
 def home(request):
+    posts = Post.objects.all()
+
     data = {
         'posts': posts,
     }
