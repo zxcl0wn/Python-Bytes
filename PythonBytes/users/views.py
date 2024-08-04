@@ -1,14 +1,32 @@
-from django.http import HttpResponse
+from audioop import reverse
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, UserLoginForm
 
 
 def login_user(request):
-    return HttpResponse("<h1>Login_user</h1>")
+    form = UserLoginForm()
+    if request.method == "POST":
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request, username=cd['username'], password=cd['password'])
+            if user:
+                login(request, user)
+                return HttpResponseRedirect(reverse_lazy('blog:home'))
+    else:
+        form = UserLoginForm()
+
+    data = {
+        'form': form,
+    }
+
+    return render(request, 'users/login.html', context=data)
 
 
 def logout_user(request):
@@ -40,3 +58,4 @@ class RegisterUser(CreateView):
     form_class = UserRegisterForm
     template_name = 'users/register.html'
     success_url = reverse_lazy('users:login')
+

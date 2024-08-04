@@ -17,3 +17,8 @@ class UserRegisterForm(UserCreationForm):
         labels = {
             'email': 'E-mail',
         }
+
+
+class UserLoginForm(forms.Form):
+    username = forms.CharField(label="Логин")
+    password = forms.CharField(label="Пароль")
