@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
@@ -60,5 +61,6 @@ class RegisterUser(CreateView):
     success_url = reverse_lazy('users:login')
 
 
+@login_required(login_url='users:login')
 def profile_user(request):
     return render(request, 'users/profile.html')
