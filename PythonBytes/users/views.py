@@ -1,5 +1,4 @@
-from audioop import reverse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
@@ -30,7 +29,8 @@ def login_user(request):
 
 
 def logout_user(request):
-    return HttpResponse("<h1>Logout_user</h1>")
+    logout(request)
+    return HttpResponseRedirect(reverse_lazy('blog:home'))
 
 
 def register_user(request):
@@ -59,3 +59,6 @@ class RegisterUser(CreateView):
     template_name = 'users/register.html'
     success_url = reverse_lazy('users:login')
 
+
+def profile_user(request):
+    return HttpResponse("<h1>Profile_user</h1>")
