@@ -61,4 +61,4 @@ class RegisterUser(CreateView):
 
 
 def profile_user(request):
-    return HttpResponse("<h1>Profile_user</h1>")
+    return render(request, 'users/profile.html')
