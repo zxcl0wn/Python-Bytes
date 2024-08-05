@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.backends.django import reraise
@@ -25,24 +26,25 @@ class PostDetailView(DetailView):
     template_name = 'blog/post_detail.html'
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content']
     success_url = reverse_lazy('blog:home')
+    login_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
     success_url = reverse_lazy('blog:home')
+    login_url = reverse_lazy('users:login')
 
-    # TODO: Login Required
 
-
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('blog:home')
+    login_url = reverse_lazy('users:login')
