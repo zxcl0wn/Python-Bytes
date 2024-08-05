@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.backends.django import reraise
-from django.views.generic import DetailView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 
 from .models import Post
 
@@ -24,16 +25,24 @@ class PostDetailView(DetailView):
     template_name = 'blog/post_detail.html'
 
 
+class PostCreateView(CreateView):
+    model = Post
+    fields = ['title', 'content']
+    success_url = reverse_lazy('blog:home')
 
-class PostCreateView():
-    pass
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
+class PostUpdateView(UpdateView):
+    model = Post
+    fields = ['title', 'content']
+    success_url = reverse_lazy('blog:home')
 
-class PostUpdateView():
-    pass
+    # TODO: Login Required
 
 
-
-class PostDeleteView():
-    pass
+class PostDeleteView(DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:home')
