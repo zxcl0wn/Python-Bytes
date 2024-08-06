@@ -11,6 +11,7 @@ class Home(ListView):
     model = Post
     template_name = 'blog/home.html'
     context_object_name = 'posts'
+    paginate_by = 3
 
 
 class About(TemplateView):
