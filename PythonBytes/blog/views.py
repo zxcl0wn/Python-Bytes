@@ -3,22 +3,18 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.backends.django import reraise
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
-
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView, TemplateView, ListView
 from .models import Post
 
 
-def home(request):
-    posts = Post.objects.all()
-
-    data = {
-        'posts': posts,
-    }
-    return render(request, 'blog/home.html', context=data)
+class Home(ListView):
+    model = Post
+    template_name = 'blog/home.html'
+    context_object_name = 'posts'
 
 
-def about(request):
-    return render(request, 'blog/about.html')
+class About(TemplateView):
+    template_name = 'blog/about.html'
 
 
 class PostDetailView(DetailView):
