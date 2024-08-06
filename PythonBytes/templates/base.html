@@ -38,7 +38,10 @@
                 <div class="navbar-nav">
                   {% if user.is_authenticated %}
                     <a class="nav-item nav-link" href="{% url 'users:profile' %}">Профиль</a>
-                    <a class="nav-item nav-link" href="{% url 'users:logout' %}">Выход</a>
+                      <form id="logoutForm" method="post" action="{% url 'users:logout' %}">
+                        {% csrf_token %}
+                        <a class="nav-item nav-link" href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Выход</a>
+                      </form>
                   {% else %}
                     <a class="nav-item nav-link" href="{% url 'users:login' %}">Вход</a>
                     <a class="nav-item nav-link" href="{% url 'users:register' %}">Регистрация</a>
