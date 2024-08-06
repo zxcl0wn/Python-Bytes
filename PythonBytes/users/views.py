@@ -1,40 +1,52 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-
 from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm, ProfileUpdateForm
 
 
-def login_user(request):
-    form = UserLoginForm()
-    if request.method == "POST":
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(request, username=cd['username'], password=cd['password'])
-            if user:
-                login(request, user)
-                return HttpResponseRedirect(reverse_lazy('blog:home'))
-    else:
-        form = UserLoginForm()
-
-    data = {
-        'form': form,
-    }
-
-    return render(request, 'users/login.html', context=data)
-
-
-def logout_user(request):
-    logout(request)
-    return HttpResponseRedirect(reverse_lazy('blog:home'))
+# def login_user(request):  # TODO
+#     form = UserLoginForm()
+#     if request.method == "POST":
+#         form = UserLoginForm(request.POST)
+#         if form.is_valid():
+#             cd = form.cleaned_data
+#             user = authenticate(request, username=cd['username'], password=cd['password'])
+#             if user:
+#                 login(request, user)
+#                 return HttpResponseRedirect(reverse_lazy('blog:home'))
+#     else:
+#         form = UserLoginForm()
+#
+#     data = {
+#         'form': form,
+#     }
+#
+#     return render(request, 'users/login.html', context=data)
 
 
-def register_user(request):
+class LoginUser(LoginView):
+    form_class = UserLoginForm
+    template_name = 'users/login.html'
+
+    def get_success_url(self):
+        return reverse_lazy('blog:home')
+
+
+# def logout_user(request):  # TODO
+#     logout(request)
+#     return HttpResponseRedirect(reverse_lazy('blog:home'))
+
+
+# class LogoutUser(LogoutView):
+#     next_page = 'blog:home'
+
+
+def register_user(request):  # TODO
     # return HttpResponse("<h1>Register_user</h1>")
     if request.method == "POST":
         form = UserRegisterForm(request.POST)
@@ -61,7 +73,7 @@ class RegisterUser(CreateView):
     success_url = reverse_lazy('users:login')
 
 
-@login_required(login_url='users:login')
+@login_required(login_url='users:login')  # TODO
 def profile_user(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
