@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load custom_tags %}
 
 {% block content %}
     {% for post in posts %}
@@ -9,7 +10,7 @@
               <small class="text-muted">{{ post.date_posted }}</small>
             </div>
             <h2><a class="article-title" href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
+            <p class="article-content">{{ post.content|truncatewords:60 }}</p>
           </div>
         </article>
     {% endfor %}
@@ -32,7 +33,7 @@
 
             {% if page_obj.has_next %}
                 <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.next_page_number }}">></a>
-                <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.paginator.num_pages }}">></a>
+                <a class="btn btn-outline-info mb-4 mr-1" href="?page={{ page_obj.paginator.num_pages }}">>></a>
             {% endif %}
 
         {% endif %}
