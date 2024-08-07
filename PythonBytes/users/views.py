@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, View
 from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm, ProfileUpdateForm
+from .models import Profile
 
 
 class LoginUser(LoginView):
@@ -22,6 +23,11 @@ class RegisterUser(CreateView):
     form_class = UserRegisterForm
     template_name = 'users/register.html'
     success_url = reverse_lazy('users:login')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        Profile.objects.create(user=self.object)
+        return response
 
 
 class ProfileUser(LoginRequiredMixin, View):

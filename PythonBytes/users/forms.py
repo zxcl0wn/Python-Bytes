@@ -28,15 +28,19 @@ class UserLoginForm(AuthenticationForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField(label='E-mail')
     username = forms.CharField(label='Имя пользователя')
 
     class Meta:
         model = get_user_model()
         fields = ['username', 'email']
+        labels = {
+            'email': "E-mail",
+        }
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    # image = forms.ImageField(label="Изображение!")
+
     class Meta:
         model = Profile
         fields = ['image']
