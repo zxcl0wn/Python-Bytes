@@ -6,7 +6,7 @@ from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
     # 3 обязательных поля для UserCreationForm
-    username = forms.CharField(label='Логин')
+    username = forms.CharField(label='Логин', widget=forms.TextInput())
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput())
     password2 = forms.CharField(label='Повтор пароля', widget=forms.PasswordInput())
 
@@ -19,8 +19,8 @@ class UserRegisterForm(UserCreationForm):
 
 
 class UserLoginForm(AuthenticationForm):
-    username = forms.CharField(label="Логин")
-    password = forms.CharField(label="Пароль")
+    username = forms.CharField(label="Логин", widget=forms.TextInput())
+    password = forms.CharField(label="Пароль", widget=forms.PasswordInput())
 
     class Meta:
         model = get_user_model()
