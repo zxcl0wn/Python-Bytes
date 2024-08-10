@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, View
+from django.views.generic import CreateView, UpdateView, View, DetailView
 from .forms import UserRegisterForm, UserLoginForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
 
@@ -60,3 +60,16 @@ class ProfileUser(LoginRequiredMixin, View):
             'p_form': p_form,
         }
         return render(request, self.template_name, context=data)
+
+
+class ProfileAnotherUser(LoginRequiredMixin, DetailView):
+    model = Profile
+    template_name = 'users/profile_another_user.html'
+    login_url = 'users:login'
+    context_object_name = 'profile'
+
+    def get_object(self, queryset=None):
+        # Получаем пользователя по username из URL
+        username = self.kwargs.get('username')
+        # Получаем профиль по username связанного пользователя
+        return Profile.objects.get(user__username=username)
