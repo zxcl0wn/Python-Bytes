@@ -32,6 +32,6 @@ class Post(models.Model):
         verbose_name = 'Публикация'
         verbose_name_plural = 'Публикации'
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):  # Автоматическое создание слагов
         self.slug = slugify(unidecode(self.title))
         super().save(*args, **kwargs)

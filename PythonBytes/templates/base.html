@@ -60,12 +60,11 @@
             <div class="col-md-4">
               <div class="content-section">
                 <h3>Разделы</h3>
-                <p class='text-muted'>новости и события
+                <p class='text-muted'>Новости и события
                   <ul class="list-group">
-                    <li class="list-group-item list-group-item-light">Новые записи</li>
-                    <li class="list-group-item list-group-item-light">Объявления</li>
-                    <li class="list-group-item list-group-item-light">Соревнования</li>
-                    <li class="list-group-item list-group-item-light">Встречи участников</li>
+                      {% for note in menu %}
+                          <a class="list-group-item list-group-item-light" href="{% url note.url_name %}">{{ note.title }}</a>
+                      {% endfor %}
                   </ul>
                 </p>
               </div>

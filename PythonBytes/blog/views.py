@@ -12,7 +12,10 @@ class Home(ListView):
     template_name = 'blog/home.html'
     context_object_name = 'posts'
     paginate_by = 3
-
+    # extra_context = {
+    #     'menu': menu,
+    # }
+    #
 
 class About(TemplateView):
     template_name = 'blog/about.html'
