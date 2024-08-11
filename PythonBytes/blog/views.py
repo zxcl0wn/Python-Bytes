@@ -12,10 +12,7 @@ class Home(ListView):
     template_name = 'blog/home.html'
     context_object_name = 'posts'
     paginate_by = 3
-    # extra_context = {
-    #     'menu': menu,
-    # }
-    #
+
 
 class About(TemplateView):
     template_name = 'blog/about.html'
@@ -70,3 +67,12 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+
+class MyPosts(LoginRequiredMixin, ListView):
+    template_name = 'blog/home.html'
+    context_object_name = 'posts'
+    paginate_by = 3
+    login_url = 'users:login'
+
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user)
