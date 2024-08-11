@@ -12,12 +12,10 @@
                 {% else %}
                     <a class="mr-2" href="{% url 'users:another_profile' post.author %}">{{ post.author }}</a>
                 {% endif %}
-
-
-
               <small class="text-muted">{{ post.date_posted }}</small>
             </div>
-            <h2><a class="article-title" href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a></h2>
+{#            <h2><a class="article-title" href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h2>#}
+            <h2><a class="article-title" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content|truncatewords:60 }}</p>
           </div>
         </article>

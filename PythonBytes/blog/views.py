@@ -21,6 +21,7 @@ class About(TemplateView):
 class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
+    slug_url_kwarg = 'post_slug'
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
