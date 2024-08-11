@@ -51,6 +51,7 @@ class PostUpdateView(DataMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateV
     fields = ['title', 'content']
     success_url = reverse_lazy('blog:home')
     login_url = reverse_lazy('users:login')
+    slug_url_kwarg = 'slug_post_update'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -75,6 +76,7 @@ class PostDeleteView(DataMixin, LoginRequiredMixin, UserPassesTestMixin, DeleteV
     model = Post
     success_url = reverse_lazy('blog:home')
     login_url = reverse_lazy('users:login')
+    slug_url_kwarg = 'slug_post_delete'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
