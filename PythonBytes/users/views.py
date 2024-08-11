@@ -49,7 +49,7 @@ class ProfileUser(LoginRequiredMixin, View):
         data = {
             'u_form': u_form,
             'p_form': p_form,
-            'title_page': "Профиль",
+            'title_page': f"Мой профиль: {self.request.user}",
         }
         return render(request, self.template_name, context=data)
 

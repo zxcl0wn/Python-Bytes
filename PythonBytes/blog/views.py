@@ -17,15 +17,21 @@ class Home(DataMixin, ListView):
 
 class About(DataMixin, TemplateView):
     template_name = 'blog/about.html'
-    title_page = "О клубе"
+    title_page = "О клубе Python Bytes"
 
 
 class PostDetailView(DataMixin, DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
     slug_url_kwarg = 'post_slug'
-    title_page = "Просмотр записи"
     context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(f'context:{context}')
+        context['title_page'] = f'Статья: {self.object.title}'
+
+        return context
 
 
 class PostCreateView(DataMixin, LoginRequiredMixin, CreateView):
@@ -33,7 +39,7 @@ class PostCreateView(DataMixin, LoginRequiredMixin, CreateView):
     fields = ['title', 'content']
     success_url = reverse_lazy('blog:home')
     login_url = reverse_lazy('users:login')
-    title_page = "Создание записи"
+    title_page = "Создание новой записи"
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -45,7 +51,12 @@ class PostUpdateView(DataMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateV
     fields = ['title', 'content']
     success_url = reverse_lazy('blog:home')
     login_url = reverse_lazy('users:login')
-    title_page = "Изменение записи"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title_page'] = f'Редактирование статьи: {self.object.title}'
+
+        return context
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -64,7 +75,13 @@ class PostDeleteView(DataMixin, LoginRequiredMixin, UserPassesTestMixin, DeleteV
     model = Post
     success_url = reverse_lazy('blog:home')
     login_url = reverse_lazy('users:login')
-    title_page = "Удаление записи"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(f'context:{context}')
+        context['title_page'] = f'Удаление записи: {self.object.title}'
+
+        return context
 
     def test_func(self):
         post = self.get_object()
