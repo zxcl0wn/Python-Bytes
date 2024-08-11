@@ -15,6 +15,10 @@ class LoginUser(LoginView):
     form_class = UserLoginForm
     template_name = 'users/login.html'
 
+    extra_context = {
+        'title_page': "Авторизация",
+    }
+
     def get_success_url(self):
         return reverse_lazy('blog:home')
 
@@ -24,6 +28,9 @@ class RegisterUser(CreateView):
     template_name = 'users/register.html'
     success_url = reverse_lazy('users:login')
 
+    extra_context = {
+        'title_page': "Регистрация",
+    }
     def form_valid(self, form):
         response = super().form_valid(form)
         Profile.objects.create(user=self.object)
@@ -42,6 +49,7 @@ class ProfileUser(LoginRequiredMixin, View):
         data = {
             'u_form': u_form,
             'p_form': p_form,
+            'title_page': "Профиль",
         }
         return render(request, self.template_name, context=data)
 
@@ -58,6 +66,7 @@ class ProfileUser(LoginRequiredMixin, View):
         data = {
             'u_form': u_form,
             'p_form': p_form,
+            'title_page': "Профиль",
         }
         return render(request, self.template_name, context=data)
 
@@ -67,6 +76,13 @@ class ProfileAnotherUser(LoginRequiredMixin, DetailView):
     template_name = 'users/profile_another_user.html'
     login_url = 'users:login'
     context_object_name = 'profile'
+    extra_context = {
+        'title_page': "Профиль другого пользователя",
+    }
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['title_page'] = f'Профиль пользователя: {self.kwargs.get('username')}'
 
     def get_object(self, queryset=None):
         # Получаем пользователя по username из URL

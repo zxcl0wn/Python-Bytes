@@ -14,11 +14,7 @@
          <link rel="stylesheet" type="text/css" href="{% static 'blog/css/main.css' %}">
          <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
          <link rel="shortcut icon" href='{% static 'blog/images/logo.svg' %}' type="image/x-icon"/>
-        {% if title %}
-            <title>Блог клуба {{ title }}</title>
-        {% else %}
-            <title>Блог клуба Python Bytes</title>
-        {% endif %}
+         <title>{{ title_page }}</title>
     </head>
 
     <body>
