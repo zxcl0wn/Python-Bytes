@@ -1,12 +1,13 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from .models import Profile
 
 
 class UserRegisterForm(UserCreationForm):
     # 3 обязательных поля для UserCreationForm
     username = forms.CharField(label='Логин', widget=forms.TextInput())
+    email = forms.EmailField(label='E-mail', widget=forms.EmailInput())
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput())
     password2 = forms.CharField(label='Повтор пароля', widget=forms.PasswordInput())
 
@@ -47,3 +48,9 @@ class ProfileUpdateForm(forms.ModelForm):
         labels = {
             'image': "Изображение",
         }
+
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label="Старый пароль", widget=forms.PasswordInput())
+    new_password1 = forms.CharField(label="Новый пароль", widget=forms.PasswordInput())
+    new_password2 = forms.CharField(label="Подтверждение пароля", widget=forms.PasswordInput())

@@ -18,6 +18,7 @@
               {{ u_form|crispy }}
               {{ p_form|crispy }}
           </fieldset>
+          <p><a href="{% url 'users:password_change' %}">Сменить пароль</a></p>
           <div class="form-group">
               <button class="btn btn-outline-info" type="submit">Обновить</button>
           </div>
