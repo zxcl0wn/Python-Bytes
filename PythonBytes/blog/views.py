@@ -45,7 +45,7 @@ class PostCreateView(DataMixin, LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-
+    
 class PostUpdateView(DataMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
